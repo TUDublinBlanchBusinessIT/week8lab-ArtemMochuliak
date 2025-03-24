@@ -72,7 +72,23 @@ class MyFirstGUI:
             print(f"An error occurred: {e}")
 
     def print_all(self):
-        print()
+        try:
+           
+            conn = sqlite3.connect('tennisclub.db')
+            cursor = conn.cursor()
+            
+            
+            cursor.execute("SELECT * FROM member")
+            members = cursor.fetchall()
+            
+          
+            for member in members:
+                print(member)
+            
+            conn.close()
+        
+        except Exception as e:
+            print(f"An error occurred: {e}")
         
 
     def close(self):

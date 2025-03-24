@@ -1,3 +1,4 @@
+import sqlite3
 from tkinter import *
 
 class MyFirstGUI:
@@ -6,6 +7,7 @@ class MyFirstGUI:
         self.master = master
         master.title("A simple GUI")
         
+    
         self.label1 = Label(master, text="Enter your Firstname")
         self.label1.pack()
         self.entry1 = Entry()
@@ -26,6 +28,7 @@ class MyFirstGUI:
         self.entry4 = Entry()
         self.entry4.pack()
         
+  
         self.insertButton = Button(master, text="Insert Into DB", command=self.insert_into_db)
         self.insertButton.pack()
 
@@ -34,16 +37,50 @@ class MyFirstGUI:
 
         self.closeButton = Button(master, text="Close", command=self.close)
         self.closeButton.pack()
+
+    def insert_into_db(self):
+     
+        firstname = self.entry1.get()
+        surname = self.entry2.get()
+        dob = self.entry3.get()
+        member_type = self.entry4.get()
+
+    
+        sql_command = f"INSERT INTO member(firstname, surname, dateofbirth, membertype) VALUES ('{firstname}', '{surname}', '{dob}', '{member_type}')"
         
-    def insert_into_db(self):    
-       
+     
+        print(f"SQL Command: {sql_command}")
         
-    def print_all(self):    
        
+        try:
+           
+            conn = sqlite3.connect('tennisclub.db')
+            cursor = conn.cursor()
+            
+          
+            cursor.execute(sql_command)
+            
+           
+            conn.commit()
+            
+          
+            conn.close()
+            
+            print("Data inserted successfully")
+        
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+    def print_all(self):
+        print()
+        
 
     def close(self):
+        
         root.destroy()
+
 
 root = Tk()
 my_gui = MyFirstGUI(root)
-root.dooneevent()
+root.mainloop()
+
